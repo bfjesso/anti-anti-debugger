@@ -53,6 +53,27 @@ int main()
 		return 0;
 	}
 
+	BOOL isProcWow64;
+	if (!IsWow64Process(procHandle, &isProcWow64))
+	{
+		printf("Failed to determine if process is WOW64");
+		return 0;
+	}
+
+#if _WIN64
+	if (isProcWow64)
+	{
+		printf("Run the 32-bit version of this program to attach to a 32-bit process");
+		return 0;
+	}
+#else
+	if (!isProcWow64)
+	{
+		printf("Run the 64-bit version of this program to attach to a 64-bit process");
+		return 0;
+	}
+#endif
+
 	int userInput = 0;
 	while (1)
 	{
